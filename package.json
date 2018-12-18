@@ -1,0 +1,36 @@
+{
+  "name": "react-native-snackbar",
+  "version": "1.0.0",
+  "description": "Snackbar component for react-native",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "rimraf build && babel --out-dir build src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anshuman71/react-native-snackbar.git"
+  },
+  "keywords": [
+    "snackbar",
+    "reactjs",
+    "react-native"
+  ],
+  "dependencies": {
+    "prop-types": "^15.6.2",
+    "react": "16.3.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "react-native-animatable": "^1.3.0"
+  },
+  "author": "Anshuman Bhardwaj <anshu5074@gmail.com> (https://anshuman71.github.com/goodtogo71)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Anshuman71/react-native-snackbar/issues"
+  },
+  "homepage": "https://github.com/Anshuman71/react-native-snackbar#readme",
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-plugin-transform-react-jsx": "6.24.1",
+    "rimraf": "2.6.2"
+  }
+}
