@@ -1,52 +1,98 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, Easing, Animated } from 'react-native';
 import PropTypes from 'prop-types';
-import * as Animatable from 'react-native-animatable';
 
-const Snackbar = ({ message, duration, width, reset }) => (
-  <Animatable.View
-    animation="slideInUp"
-    useNativeDriver
-    iterationCount={2}
-    iterationDelay={duration === 'short' ? 1400 : 2000}
-    duration={600}
-    onAnimationEnd={reset}
-    direction="alternate"
-    style={{
-      position: 'absolute',
-      bottom: 0,
-      height: 60,
-      flexDirection: 'row',
-      width,
-      backgroundColor: '#000',
-      opacity: 0.95,
-      alignItems: 'center',
-    }}
-  >
-    <Text
-      style={{
-        flex: 1,
-        fontSize: 18,
-        fontFamily: 'Raleway',
-        color: 'white',
-        flexWrap: 'wrap',
-        paddingRight: 10,
-      }}
-    >
-      {message}
-    </Text>
-  </Animatable.View>
-);
+import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
+
+class Snackbar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.modalPosition = new Animated.Value(-60);
+    this.state = {};
+  }
+
+  componentDidMount() {
+    this.animateUp();
+    this.timer = setTimeout(this.animateDown, this.props.duration === 'short' ? 2000 : 2500);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+  }
+
+  animateUp = () => {
+    Animated.timing(this.modalPosition, {
+      toValue: 0,
+      duration: 300,
+      easing: Easing.ease,
+    }).start();
+  };
+
+  animateDown = () => {
+    Animated.timing(this.modalPosition, {
+      toValue: -60,
+      duration: 300,
+      easing: Easing.linear,
+    }).start(this.props.reset);
+  };
+
+  render() {
+    const { message, error, title } = this.props;
+    return (
+      <Animated.View
+        style={{
+          position: 'absolute',
+          bottom: this.modalPosition,
+          height: 60,
+          elevation: 20,
+          width: Layout.window.width,
+          flexDirection: 'row',
+          backgroundColor: '#000',
+          opacity: 0.85,
+          alignItems: 'center',
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 18,
+            fontFamily: 'Raleway',
+            color: error ? Colors.errorText : Colors.tintColor,
+            marginHorizontal: 10,
+          }}
+        >
+          {title}
+        </Text>
+        <Text
+          style={{
+            flex: 1,
+            fontSize: 18,
+            fontFamily: 'Raleway',
+            color: 'white',
+            flexWrap: 'wrap',
+            paddingRight: 10,
+          }}
+        >
+          {message}
+        </Text>
+      </Animated.View>
+    );
+  }
+}
+
 export default Snackbar;
 
 Snackbar.defaultProps = {
+  error: false,
   reset: () => {},
   duration: 'short',
 };
 
 Snackbar.propTypes = {
   message: PropTypes.string.isRequired,
-  width: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
   duration: PropTypes.oneOf(['short', 'long']),
+  error: PropTypes.bool,
   reset: PropTypes.func,
 };
+
