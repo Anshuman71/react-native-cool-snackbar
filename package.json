@@ -1,6 +1,6 @@
 {
-  "name": "react-native-snackbar",
-  "version": "1.0.0",
+  "name": "react-native-cool-snackbar",
+  "version": "1.1.0",
   "description": "Snackbar component for react-native",
   "main": "src/index.js",
   "scripts": {
