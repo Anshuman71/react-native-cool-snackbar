@@ -31,11 +31,13 @@ Snackbar component for React-native
 ```
  {condition > 0 && (
     <Snackbar
-      title="Could't connect"
-      duration="long"
+      title="Sorry!,"
+      duration="short"
       error
-      message="Check internet please do blablabl bla bla bla bla"
+      message="no user with this email"
       reset={this.reset}
     />
   )}
 ```
+
+![](./demo.gif)
