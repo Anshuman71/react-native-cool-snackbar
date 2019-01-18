@@ -14,6 +14,10 @@ Snackbar component for React-native
 
 - **reset**: _Func_, called when snackbar ends (used to reset the state after message is shown)
 
+## example
+
+See this expo [snack](https://snack.expo.io/@anshuman71/cool-snackbar) to see how to use Snackbar
+
 ## usage
 
 ### In your render method
@@ -39,5 +43,3 @@ Snackbar component for React-native
     />
   )}
 ```
-
-![](./demo.gif)
