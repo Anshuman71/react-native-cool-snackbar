@@ -1,80 +1,98 @@
 import React from 'react';
-import { Text, Easing, Animated } from 'react-native';
+import {
+  Text,
+  Animated,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import PropTypes from 'prop-types';
 
-import Colors from '../constants/Colors';
-import Layout from '../constants/Layout';
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
+
+const styles = StyleSheet.create({
+  message: {
+    flexDirection: 'row',
+    width: WIDTH * 0.7,
+    fontSize: 20,
+    fontFamily: 'Roboto',
+    color: 'white',
+    flexWrap: 'wrap',
+  },
+  container: {
+    position: 'absolute',
+    height: 60,
+    elevation: 20,
+    width: WIDTH,
+    flexDirection: 'row',
+    backgroundColor: '#000000ef',
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  action: {
+    padding: 10,
+  },
+  actionTitle: {
+    fontSize: 20,
+
+    fontFamily: 'Roboto',
+    paddingHorizontal: 10,
+  },
+});
 
 class Snackbar extends React.Component {
   constructor(props) {
     super(props);
-    this.modalPosition = new Animated.Value(-60);
+    this.modalPosition = new Animated.Value(HEIGHT);
     this.state = {};
   }
 
+  shouldComponentUpdate(props, state) {
+    return props.isActive;
+  }
+
   componentDidMount() {
+    if (this.props.isActive) this.animateUp();
+  }
+  componentDidUpdate() {
     this.animateUp();
-    this.timer = setTimeout(this.animateDown, this.props.duration === 'short' ? 2000 : 2500);
   }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer);
-  }
-
   animateUp = () => {
-    Animated.timing(this.modalPosition, {
-      toValue: 0,
-      duration: 300,
-      easing: Easing.ease,
-    }).start();
-  };
-
-  animateDown = () => {
-    Animated.timing(this.modalPosition, {
-      toValue: -60,
-      duration: 300,
-      easing: Easing.linear,
-    }).start(this.props.reset);
+    Animated.sequence([
+      Animated.timing(this.modalPosition, {
+        toValue: HEIGHT - 60,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.modalPosition, {
+        delay: this.props.duration === 'short' ? 2500 : 3000,
+        toValue: HEIGHT,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
   };
 
   render() {
-    const { message, error, title } = this.props;
+    const { message, error, title, action } = this.props;
     return (
       <Animated.View
-        style={{
-          position: 'absolute',
-          bottom: this.modalPosition,
-          height: 60,
-          elevation: 20,
-          width: Layout.window.width,
-          flexDirection: 'row',
-          backgroundColor: '#000',
-          opacity: 0.85,
-          alignItems: 'center',
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            fontFamily: 'Raleway',
-            color: error ? Colors.errorText : Colors.tintColor,
-            marginHorizontal: 10,
-          }}
-        >
-          {title}
-        </Text>
-        <Text
-          style={{
-            flex: 1,
-            fontSize: 18,
-            fontFamily: 'Raleway',
-            color: 'white',
-            flexWrap: 'wrap',
-            paddingRight: 10,
-          }}
-        >
-          {message}
-        </Text>
+        style={[
+          styles.container,
+          { transform: [{ translateY: this.modalPosition }] },
+        ]}>
+        <Text style={styles.message}>{message}</Text>
+        {action && (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={action.onPress}
+            style={styles.action}>
+            <Text style={[styles.actionTitle, { color: action.color }]}>
+              {action.title.toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+        )}
       </Animated.View>
     );
   }
@@ -83,16 +101,19 @@ class Snackbar extends React.Component {
 export default Snackbar;
 
 Snackbar.defaultProps = {
-  error: false,
-  reset: () => {},
+  message: 'Mail sent!',
   duration: 'short',
+  isActive: false,
 };
 
 Snackbar.propTypes = {
   message: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  isActive: PropTypes.bool.isRequired,
   duration: PropTypes.oneOf(['short', 'long']),
-  error: PropTypes.bool,
-  reset: PropTypes.func,
+  action: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    onPress: PropTypes.func.isRequired,
+  }),
 };
 
