@@ -4,18 +4,20 @@
 
 ## Props
 
-| prop     | type                  | required or default     |
+| prop     | type                  | required and default     |
 | -------- | --------------------- | ----------------------- |
-| message  | string                | required                |
+| message  | string                | required (no default)   |
 | isActive | bool                  | required (false)        |
-| duration | oneOf('short','long') | short                   |
-| action   | shape                 | optional and no defalut |
+| duration | oneOf('short','long') | not required (short)    |
+| action   | object                | not required (no defalut)|
 
-| action props (all required) | type   |
-| --------------------------- | ------ |
-| title                       | string |
-| color                       | string |
-| onPress                     | func   |
+action object when provided should look like
+
+| action                      | type   | required |
+| --------------------------- | ------ |----------|
+| title                       | string |    yes   |
+| color                       | string |    yes   |
+| onPress                     | func   |    yes   |
 
 | duration        | timing |
 | --------------- | ------ |
