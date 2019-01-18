@@ -1,45 +1,41 @@
 # react-native-cool-snackbar
 
-Snackbar component for React-native
+### Snackbar component for React-native
 
-## props
+## Props
 
-- **message** : _String!_, message shown by snackbar
+| prop     | type                  | required or default     |
+| -------- | --------------------- | ----------------------- |
+| message  | string                | required                |
+| isActive | bool                  | required (false)        |
+| duration | oneOf('short','long') | short                   |
+| action   | shape                 | optional and no defalut |
 
-- **title**: _String!_,
+| action props (all required) | type   |
+| --------------------------- | ------ |
+| title                       | string |
+| color                       | string |
+| onPress                     | func   |
 
-- **duration**: _Enum_, ['short','long'], 'short' by default
+| duration        | timing |
+| --------------- | ------ |
+| short (default) | 2200ms |
+| long            | 3500ms |
 
-- **error**: _Bool_, snackbar showing error or not , false by default
-
-- **reset**: _Func_, called when snackbar ends (used to reset the state after message is shown)
-
-## example
+## Example
 
 See this expo [snack](https://snack.expo.io/@anshuman71/cool-snackbar) to see how to use Snackbar
 
-## usage
-
 ### In your render method
 
-> _condition_ is used to determine when to show the snackbar
-
-> _reset_ is used to alter the state to conditionally show the snackbar
-
 ```
-  reset = () =>{
-    this.setState(prevState => ({ condition: !prevState.condition }));
-  }
-```
-
-```
- {condition > 0 && (
-    <Snackbar
-      title="Sorry!,"
-      duration="short"
-      error
-      message="no user with this email"
-      reset={this.reset}
-    />
-  )}
+ <SnackBar
+    message="Mail sent !"
+    isActive={true}                             //conditionally set to true
+    action={{                                   //optional
+      title: 'Undo',
+      color: 'green',
+      onPress: () => console.log('done'),
+    }}
+  />
 ```
