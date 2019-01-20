@@ -1,6 +1,6 @@
 {
   "name": "react-native-cool-snackbar",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Snackbar component for react-native",
   "main": "src/index.js",
   "scripts": {
@@ -25,10 +25,5 @@
   "bugs": {
     "url": "https://github.com/Anshuman71/react-native-snackbar/issues"
   },
-  "homepage": "https://github.com/Anshuman71/react-native-snackbar#readme",
-  "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-plugin-transform-react-jsx": "6.24.1",
-    "rimraf": "2.6.2"
-  }
+  "homepage": "https://github.com/Anshuman71/react-native-snackbar#readme"
 }
