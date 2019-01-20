@@ -1,6 +1,9 @@
 # react-native-cool-snackbar
 
+
+
 ### Snackbar component for React-native
+
 
 ## Props
 
@@ -11,7 +14,9 @@
 | duration | oneOf('short','long') | not required (short)    |
 | action   | object                | not required (no defalut)|
 
+
 action object when provided should look like
+
 
 | action                      | type   | required |
 | --------------------------- | ------ |----------|
@@ -19,10 +24,13 @@ action object when provided should look like
 | color                       | string |    yes   |
 | onPress                     | func   |    yes   |
 
+
+
 | duration        | timing |
 | --------------- | ------ |
 | short (default) | 2200ms |
 | long            | 3500ms |
+
 
 ## Example
 
