@@ -14,28 +14,34 @@ const HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   message: {
     flexDirection: 'row',
-    width: WIDTH * 0.7,
-    fontSize: 20,
-    fontFamily: 'Roboto',
-    color: 'white',
     flexWrap: 'wrap',
+    fontSize: 20,
+    maxWidth: WIDTH * 0.7,
+    textAlign: 'center',
+    paddingHorizontal: 10,
+    color: 'white',
+    fontFamily: 'Roboto',
   },
   container: {
     position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     height: 60,
     elevation: 20,
     width: WIDTH,
-    flexDirection: 'row',
-    backgroundColor: '#000000ef',
-    paddingHorizontal: 20,
-    alignItems: 'center',
+    paddingHorizontal: 10,
+    backgroundColor: '#1b1b1b',
   },
   action: {
-    padding: 10,
+    paddingHorizontal: 10,
+    maxWidth: WIDTH * 0.4,
   },
   actionTitle: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     fontSize: 20,
-
+    textAlign: 'center',
     fontFamily: 'Roboto',
     paddingHorizontal: 10,
   },
@@ -48,7 +54,7 @@ class Snackbar extends React.Component {
     this.state = {};
   }
 
-  shouldComponentUpdate(props, state) {
+  shouldComponentUpdate(props) {
     return props.isActive;
   }
 
@@ -66,7 +72,7 @@ class Snackbar extends React.Component {
         useNativeDriver: true,
       }),
       Animated.timing(this.modalPosition, {
-        delay: this.props.duration === 'short' ? 2500 : 3000,
+        delay: this.props.duration === 'short' ? 2200 : 3500,
         toValue: HEIGHT,
         duration: 300,
         useNativeDriver: true,
@@ -75,19 +81,21 @@ class Snackbar extends React.Component {
   };
 
   render() {
-    const { message, error, title, action } = this.props;
+    const { message, action } = this.props;
     return (
       <Animated.View
         style={[
           styles.container,
           { transform: [{ translateY: this.modalPosition }] },
-        ]}>
+        ]}
+      >
         <Text style={styles.message}>{message}</Text>
         {action && (
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={action.onPress}
-            style={styles.action}>
+            style={styles.action}
+          >
             <Text style={[styles.actionTitle, { color: action.color }]}>
               {action.title.toUpperCase()}
             </Text>
@@ -101,7 +109,6 @@ class Snackbar extends React.Component {
 export default Snackbar;
 
 Snackbar.defaultProps = {
-  message: 'Mail sent!',
   duration: 'short',
   isActive: false,
 };
@@ -116,4 +123,3 @@ Snackbar.propTypes = {
     onPress: PropTypes.func.isRequired,
   }),
 };
-
